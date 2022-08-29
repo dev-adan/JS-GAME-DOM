@@ -1,43 +1,57 @@
-
-
 class SplashScreeen {
-    
-    render(){
+  #splashElement = document.createElement("div");
+  render() {
+    const styledElement = document.createElement("style");
 
-        const styledElement = document.createElement('style');
-
-        styledElement.innerHTML = `
+    styledElement.innerHTML = `
         
             .splash-screen {
-                background : url('../assets/splash-screen.jpg');
+                background : url('../assets/splash-screen.jpg') no-repeat;
                 width : 650px;
                 height : 650px;
 
             }
+
+            .splash-screen-1{
+                background-position-x : 0;
+
+            }
+
+            .splash-screen-2{
+                  background-position-x : -650px;
+            }
         
-        `
+        `;
 
-        document.head.appendChild(styledElement);
+    document.head.appendChild(styledElement);
 
+    this.#splashElement.classList.add("splash-screen", "splash-screen-1");
+    //create a DIV
+    const rootElement = document.getElementById("root");
 
-        //create a DIV
-        const rootElement = document.getElementById('root');
-        const splashElement = document.createElement('div');
-        
-        //Add it to the index.html file!
-        rootElement.appendChild(splashElement);
-        //set the background to render the asset
-         //imagee that we chosed for this screen
-         splashElement.classList.add('splash-screen');
+    //Add it to the index.html file!
+    rootElement.appendChild(this.#splashElement);
 
-    }
-    
-    
-    destroy(){
-        console.log('destroyed')
+    this.#animation();
+  }
 
-    }
+  destroy() {
+    this.#splashElement.remove();
+  }
+
+  #animation() {
+    let frame = 1;
+    setInterval(() => {
+      this.#splashElement.classList.remove(`splash-screen-${frame}`);
+      if (frame >= 2){
+        frame = 0;
+      }
+      frame++;
+      this.#splashElement.classList.add(`splash-screen-${frame}`);
+      
+    },500);
+  }
 }
 
 const splashscreen = new SplashScreeen();
-splashscreen.render(); 
+splashscreen.render();

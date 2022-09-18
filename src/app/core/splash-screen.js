@@ -1,8 +1,13 @@
+const MAX_FRAMES = 2;
+
+
 class SplashScreeen {
+
   #splashElement = document.createElement("div");
+  #intervalId = null;
+
   render() {
     const styledElement = document.createElement("style");
-
     styledElement.innerHTML = `
         
             .splash-screen {
@@ -33,25 +38,33 @@ class SplashScreeen {
     rootElement.appendChild(this.#splashElement);
 
     this.#animation();
+   
   }
 
   destroy() {
     this.#splashElement.remove();
+    window.clearInterval(this.#intervalId)
+    
   }
 
   #animation() {
+
     let frame = 1;
-    setInterval(() => {
+
+    this.#intervalId = setInterval(() => {
+      console.log('interval')
       this.#splashElement.classList.remove(`splash-screen-${frame}`);
-      if (frame >= 2){
-        frame = 0;
+      if (frame > MAX_FRAMES){
+        frame = 1;
       }
       frame++;
       this.#splashElement.classList.add(`splash-screen-${frame}`);
       
     },500);
+
   }
+
 }
 
-const splashscreen = new SplashScreeen();
-splashscreen.render();
+// const splashscreen = new SplashScreeen();
+// splashscreen.render();
